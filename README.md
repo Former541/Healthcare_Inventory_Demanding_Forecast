@@ -12,10 +12,10 @@ Historical Range: October 2024 to February 2026 (based on the index of your proc
 
 Key Feature Forecasted: Avg_Usage_Per_Day
 
-## Methodology
+# Methodology
 The forecasting was conducted using a time-series analysis approach, specifically leveraging the Prophet library.
 
-1.Data Preparation:
+# 1.Data Preparation:
 
 Loaded the healthcare inventory.csv into a Pandas DataFrame.
 
@@ -25,13 +25,13 @@ Engineered time-based features (Year, Month, Day, DayOfWeek).
 
 Confirmed no missing values were present in the dataset.
 
-2.Model Training:
+# 2.Model Training:
 
 A separate Prophet model was trained for each of the five unique inventory items: Ventilator, Surgical Mask, IV Drip, Gloves, and X-ray Machine.
 
 The models were configured to include daily and yearly seasonality for improved accuracy in capturing cyclical demand patterns.
 
-3.Forecasting:
+# 3.Forecasting:
 
 Predictions were generated for all items extending through December 31, 2026.
 
@@ -46,7 +46,7 @@ Ventilator: The forecast indicates a slight upward trend in average usage throug
 
 Surgical Mask: Demand appears to be highly seasonal, potentially peaking during specific months of the year.
 
-## Inventory Optimization: The forecasts provide a crucial input for inventory management:
+# Inventory Optimization: The forecasts provide a crucial input for inventory management:
 
 The yhat value can be used as the target stock level.
 
