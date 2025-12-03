@@ -193,9 +193,9 @@ future_forecast = forecast_data[forecast_data['ds'] > last_historical_date]
     
     # Select key columns and rename them for clarity
 display_cols = ['ds','yhat','yhat_lower','yhat_upper']
-    display_df = future_forecast[display_cols].head(30)
+display_df = future_forecast[display_cols].head(30)
     
-    display_df.columns = ['Date', 'Predicted Mean Usage', 'Lower Bound (Optimistic)', 'Upper Bound (Pessimistic)']
+display_df.columns = ['Date', 'Predicted Mean Usage', 'Lower Bound (Optimistic)', 'Upper Bound (Pessimistic)']
     
     # Format the numerical columns for better display
     st.dataframe(display_df.style.format({
