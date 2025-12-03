@@ -179,11 +179,11 @@ def main():
     st.markdown("---")
     
     # 3. Forecast Data Table (for detailed review)
-    st.subheader("Detailed Forecast Data (Next 30 Days)")
-    
-    # Filter for just the next 30 days of the *future* prediction
-    last_historical_date = historical_df.index.max()
-    future_forecast = forecast_data[forecast_data['ds'] > last_historical_date]
+st.subheader("Detailed Forecast Data (Next 30 Days)")
+
+# Filter for just the next 30 days of the *future* prediction
+last_historical_date = historical_df.index.max() 
+future_forecast = forecast_data[forecast_data['ds'] > last_historical_date]
     
     # Select key columns and rename them for clarity
     display_cols = ['ds', 'yhat', 'yhat_lower', 'yhat_upper']
