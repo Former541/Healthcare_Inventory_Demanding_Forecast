@@ -198,7 +198,7 @@ display_df = future_forecast[display_cols].head(30)
 display_df.columns = ['Date', 'Predicted Mean Usage', 'Lower Bound (Optimistic)', 'Upper Bound (Pessimistic)']
     
     # Format the numerical columns for better display
-    st.dataframe(display_df.style.format({
+st.dataframe(display_df.style.format({
         'Predicted Mean Usage': "{:.2f}",
         'Lower Bound (Optimistic)': "{:.2f}",
         'Upper Bound (Pessimistic)': "{:.2f}"
