@@ -143,7 +143,7 @@ def main():
     
     # Get model and historical data for the selected item
     model = forecast_models[selected_item]
-    historical_df = df[df['Item_Name'] == selected_item]
+    historical_df = df[df['Item_Name'] == selected_item].copy() # Added .copy() for safety
     
     # Generate Forecast
     forecast_data, historical_data = generate_forecast(model, historical_df, forecast_days)
