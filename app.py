@@ -182,8 +182,8 @@ def main():
 st.subheader("Detailed Forecast Data (Next 30 Days)")
 
 # Filter for just the next 30 days of the *future* prediction
-# Ensure 'Date' column is used and is converted to a simple value if it's the index
-last_historical_date = historical_df['Date'].max()
+# Use historical_data (which has the 'ds' column) for a reliable max date
+last_historical_date = historical_data['ds'].max()
 
 # Convert to a simple timestamp object for reliable comparison if necessary
 if not pd.api.types.is_datetime64_any_dtype(last_historical_date):
