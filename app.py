@@ -178,11 +178,17 @@ def main():
         
     st.markdown("---")
     
-    # 3. Forecast Data Table (for detailed review)
+   # 3. Forecast Data Table (for detailed review)
 st.subheader("Detailed Forecast Data (Next 30 Days)")
 
 # Filter for just the next 30 days of the *future* prediction
-last_historical_date = historical_df.index.max() 
+# Ensure 'Date' column is used and is converted to a simple value if it's the index
+last_historical_date = historical_df['Date'].max()
+
+# Convert to a simple timestamp object for reliable comparison if necessary
+if not pd.api.types.is_datetime64_any_dtype(last_historical_date):
+    last_historical_date = pd.to_datetime(last_historical_date)
+
 future_forecast = forecast_data[forecast_data['ds'] > last_historical_date]
     
     # Select key columns and rename them for clarity
