@@ -106,8 +106,9 @@ def get_llm_recommendations(item_name, forecast_data):
         return llm_output
         
     except Exception as e:
+        # This will catch the 401 error if the key is wrong
         st.error(f"Error calling the LLM API: {e}")
-        return "Failed to retrieve LLM recommendations due to an API error."
+        return "Failed to retrieve LLM recommendations due to an API error. Check your API key."
 
 # --- 5. STREAMLIT APPLICATION ---
 def main():
@@ -143,7 +144,8 @@ def main():
     
     # Get model and historical data for the selected item
     model = forecast_models[selected_item]
-    historical_df = df[df['Item_Name'] == selected_item].copy() # Added .copy() for safety
+    # Added .copy() to ensure a clean local copy for the item
+    historical_df = df[df['Item_Name'] == selected_item].copy() 
     
     # Generate Forecast
     forecast_data, historical_data = generate_forecast(model, historical_df, forecast_days)
@@ -178,27 +180,27 @@ def main():
         
     st.markdown("---")
     
-   # 3. Forecast Data Table (for detailed review)
-st.subheader("Detailed Forecast Data (Next 30 Days)")
+    # 3. Forecast Data Table (for detailed review)
+    st.subheader("Detailed Forecast Data (Next 30 Days)")
+    
+    # Filter for just the next 30 days of the *future* prediction
+    # FIX for NameError/TypeError: Use historical_data (which has the 'ds' column)
+    last_historical_date = historical_data['ds'].max() 
 
-# Filter for just the next 30 days of the *future* prediction
-# Use historical_data (which has the 'ds' column) for a reliable max date
-last_historical_date = historical_data['ds'].max()
-
-# Convert to a simple timestamp object for reliable comparison if necessary
-if not pd.api.types.is_datetime64_any_dtype(last_historical_date):
-    last_historical_date = pd.to_datetime(last_historical_date)
-
-future_forecast = forecast_data[forecast_data['ds'] > last_historical_date]
+    # Convert to a simple timestamp object for reliable comparison if necessary
+    if not pd.api.types.is_datetime64_any_dtype(last_historical_date):
+        last_historical_date = pd.to_datetime(last_historical_date)
+        
+    future_forecast = forecast_data[forecast_data['ds'] > last_historical_date]
     
     # Select key columns and rename them for clarity
-display_cols = ['ds','yhat','yhat_lower','yhat_upper']
-display_df = future_forecast[display_cols].head(30)
+    display_cols = ['ds', 'yhat', 'yhat_lower', 'yhat_upper']
+    display_df = future_forecast[display_cols].head(30)
     
-display_df.columns = ['Date', 'Predicted Mean Usage', 'Lower Bound (Optimistic)', 'Upper Bound (Pessimistic)']
+    display_df.columns = ['Date', 'Predicted Mean Usage', 'Lower Bound (Optimistic)', 'Upper Bound (Pessimistic)']
     
     # Format the numerical columns for better display
-st.dataframe(display_df.style.format({
+    st.dataframe(display_df.style.format({
         'Predicted Mean Usage': "{:.2f}",
         'Lower Bound (Optimistic)': "{:.2f}",
         'Upper Bound (Pessimistic)': "{:.2f}"
